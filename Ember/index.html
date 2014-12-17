@@ -14,9 +14,51 @@
         
 
         <script type="text/x-handlebars">
+            
             <div class="container">
-                {{outlet}}
+            {{outlet}}
+    
+                    {{pagination-pager count=5 current=2 pager=true pagerNext='New' pagerPrevious='Old'}}<br>
+                {{pagination-pager count=5 current=1 pager=true pagerSpread=true}}<br>
+                {{pagination-pager count=5 current=2}}<br>
+                {{pagination-pager count=5 current=1}}<br>
+                {{pagination-pager count=50 current=1 change='pageChanged'}}<br>
+                {{pagination-pager count=5 current=5 size='lg'}}<br>
+                {{pagination-pager count=5 current=5 size='lg' paginationNext='next' paginationPrevious='previous'}}<br>
+                {{pagination-pager count=1 current=1}}<br>
+                {{pagination-pager count=1 current=1 hide=true}}
+                {{pagination-pager count=1 current=1 pager=true hide=true}}
             </div>            
+        </script>
+        <script type="text/x-handlebars" id="components/page-item">
+            {{#if isDots}}
+                <a>{{page}}</a>
+              {{else}}
+                <a href="#" {{action 'setCurrent'}}>{{page}}</a>
+              {{/if}}            
+        </script>
+        <script type="text/x-handlebars" id="components/pagination-pager">                    
+            {{#unless pager}}            
+            <li {{bind-attr class=':previous isFirst:disabled'}}>
+              <a href="#" {{action 'previous'}}>{{paginationPrevious}}</a>
+            </li>
+
+            {{#each page in pages}}
+              {{page-item page=page selected=current seperator=seperator pageSet='pageChanged'}}
+            {{/each}}
+
+            <li {{bind-attr class=':next isLast:disabled'}}>
+              <a href="#" {{action 'next'}}>{{paginationNext}}</a>
+            </li>
+          {{else}}
+            <li {{bind-attr class='pagerSpread:previous isFirst:disabled'}}>
+              <a href="#" {{action 'previous'}}>{{pagerPrevious}}</a>
+            </li>
+
+            <li {{bind-attr class='pagerSpread:next isLast:disabled'}}>
+              <a href="#" {{action 'next'}}>{{pagerNext}}</a>
+            </li>
+          {{/unless}}           
         </script>
         <script type="text/x-handlebars" id="home">
             
